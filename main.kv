@@ -1,0 +1,211 @@
+
+
+#: import main main
+#: import ListAdapter kivy.adapters.listadapter.ListAdapter
+#: import ListItemButton kivy.uix.listview.ListItemButton
+
+
+<HomeScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        padding: 100
+        spacing: 25
+        Label:
+            size_hint_y: None
+            height: 150
+            text: "Musicly"
+
+        Button:
+            text: "New PlayList"
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.current = 'new_playlist'
+        Button:
+            text: "New Artist"
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.current = 'new_artist'
+        Button:
+            text: "New Album"
+            on_press: root.addAlbum()
+
+        Button:
+            text: "Songs List"
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.current = 'song_list_screen'
+        
+
+<NewPlaylist>:
+    playlist_name: play_name
+    playlist_description: play_description
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: 'Playlist Name:'
+        TextInput:
+            id: play_name
+
+        Label:
+            text: 'Playlist description:'
+        TextInput:
+            id: play_description
+
+        BoxLayout:
+            padding: 15
+            spacing: 25
+            Button:
+                text: 'OK'
+                on_press:
+                    root.add_project_screen(play_name, play_description)
+                    root.manager.transition.direction = 'right'
+                    root.manager.current = 'home_screen'
+            Button:
+                text: 'Back'
+                on_press:
+                    root.manager.transition.direction = 'right'
+                    root.manager.current = 'home_screen'
+<NewArtist>:
+    artist_name: arti_name
+    artist_date: arti_date
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: 'Artist Name:'
+        TextInput:
+            id: arti_name
+
+        Label:
+            text: 'Artist date of birth:'
+        TextInput:
+            id: arti_date
+
+        BoxLayout:
+            padding: 15
+            spacing: 25
+            Button:
+                text: 'OK'
+                on_press:
+                    root.add_artist_screen(arti_name, arti_date)
+                    root.manager.transition.direction = 'right'
+                    root.manager.current = 'home_screen'
+            Button:
+                text: 'Back'
+                on_press:
+                    root.manager.transition.direction = 'right'
+                    root.manager.current = 'home_screen'
+
+<SongListScreen>:
+    
+    song_list: song_list_view
+    BoxLayout:
+        padding: 10
+        spacing: 10
+        orientation: 'vertical'
+        height: 10
+        BoxLayout:
+            padding: 10
+            spacing: 10
+            orientation: 'horizontal'
+            height: 10
+            size_hint: 1 , .2  
+            Button:
+                text: 'Back'
+                on_press:
+                    root.manager.transition.direction = 'right'
+                    root.manager.current = 'home_screen'
+            BoxLayout:
+                orientation: "horizontal"
+                Spinner:
+                    text: "Order"
+                    values: ["Name as","Name de","Artist","Album","Gener","Date"]
+                    id: spinner_id
+                    on_text: root.spinner_clicked(spinner_id.text)
+            Button:
+                text: 'All Songs'
+                on_press: root.getAll("song")
+            Button:
+                text: 'Show bands'
+                on_press: root.getAll("band")
+            Button:
+                text: 'Show artists'
+                on_press: root.getAll("artist")
+            Button:
+                text: 'Show playlists'
+                on_press: root.getAll("playlist")
+            Button:
+                text: 'Show albums'
+                on_press: root.getAll("album")
+			Button:
+                text: 'Show Gener'
+                on_press: root.getGeners()
+            Button:
+                text: 'Show Songs'
+                on_press: root.getSongs()
+        
+        BoxLayout:
+            padding: 10
+            spacing: 10
+            orientation: 'horizontal'
+            height: 10
+            size_hint: 1 , .1    
+            Button:
+                text: 'Add song to playlist'
+                on_press: root.addSongToPlaylist()
+            Button:
+                text: 'Delete song from playlist'
+                on_press: root.deleteSongFromPlaylist()
+            Button:
+                text: 'Song Detail'
+                on_press: root.songDetail()
+        BoxLayout:
+            padding: 10
+            spacing: 10
+            orientation: 'horizontal'
+            height: 10
+            size_hint: 1 , .1    
+            Button:
+                text: 'Delete From Application'
+                on_press: root.deleteobj()
+
+
+        ListView:
+            id: song_list_view
+            adapter:
+                ListAdapter(data=[], cls=main.ProjectListButton)
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            spacing: 10
+            Button:
+                text: 'previous'
+                on_press: root.previous()
+                width: 20
+            Button:
+                text: 'Stop'
+                on_press: root.stop()
+                width: 20
+            Button:
+                text: 'Play'
+                on_press: root.play()
+                width: 20
+            Button:
+                text: 'Pause'
+                on_press: root.pause()
+                width: 20
+            Button:
+                text: 'UnPause'
+                on_press: root.unpause()
+                width: 20
+            Button:
+                text: 'Next'
+                on_press: root.next()
+                width: 20
+
+<ProjectScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'hook up project info here'
+        Button:
+            text: 'Back'
